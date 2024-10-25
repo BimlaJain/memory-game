@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Game</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .memory-game {
+            font-size: 60px;
+            font-weight: 700;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 100px);
+            gap: 10px;
+        }
+
+        .card {
+            width: 100px;
+            height: 100px;
+            background: #2a825b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            cursor: pointer;
+        }
+
+        .flipped {
+            background: lightgray;
+            opacity: 2;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .blue {
+            color: blue;
+        }
+
+        .pink {
+            color: rgb(178, 55, 76);
+        }
+
+        .green {
+            color: green;
+        }
+
+        .black {
+            color: black;
+        }
+
+        .orange {
+            color: orange;
+        }
+
+        .yellow {
+            color: yellow;
+        }
+
+        .purple {
+            color: purple;
+        }
+    </style>
+</head>
+
+<body>
+    <h1 class="memory-game">Memory Game</h1>
+    <div class="grid" id="grid">
+        <div class="card red" data-card-value="Red"></div>
+        <div class="card blue" data-card-value="Blue"></div>
+        <div class="card pink" data-card-value="Pink"></div>
+        <div class="card green" data-card-value="Green"></div>
+        <div class="card black" data-card-value="Black"></div>
+        <div class="card orange" data-card-value="Orange"></div>
+        <div class="card yellow" data-card-value="Yellow"></div>
+        <div class="card purple" data-card-value="Purple"></div>
+        <div class="card orange" data-card-value="Orange"></div>
+        <div class="card green" data-card-value="Green"></div>
+        <div class="card yellow" data-card-value="Yellow"></div>
+        <div class="card blue" data-card-value="Blue"></div>
+        <div class="card purple" data-card-value="Purple"></div>
+        <div class="card red" data-card-value="Red"></div>
+        <div class="card black" data-card-value="Black"></div>
+        <div class="card pink" data-card-value="Pink"></div>
+    </div>
+    <script>
+        const cards = document.querySelectorAll('.card');
+        let flippedCards = [], matchedCards = [];
+
+        cards.forEach(card => {
+            card.addEventListener('click', flipCard);
+        });
+
+        function flipCard() {
+            if (flippedCards.length < 2 && !this.classList.contains('flipped')) {
+                this.classList.add('flipped');
+                this.textContent = this.dataset.cardValue;
+                flippedCards.push(this);
+                if (flippedCards.length === 2) checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            setTimeout(() => {
+                const [first, second] = flippedCards;
+                if (first.dataset.cardValue !== second.dataset.cardValue) {
+                    first.classList.remove('flipped');
+                    second.classList.remove('flipped');
+                    first.textContent = '';
+                    second.textContent = '';
+                } else {
+                    matchedCards.push(first, second);
+                }
+                flippedCards = [];
+            }, 1000);
+        }
+    </script>
+</body>
+
+</html>
